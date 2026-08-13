@@ -194,6 +194,18 @@ export function Player({ tracks }: PlayerProps) {
     setIsQueueOpen(prev => !prev);
   }, []);
 
+  useEffect(() => {
+    if (isQueueOpen) {
+      // Small timeout to ensure DOM is rendered before scrolling
+      setTimeout(() => {
+        const el = document.getElementById(`queue-track-${currentIndex}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 50);
+    }
+  }, [isQueueOpen, currentIndex]);
+
   if (!currentTrack) return null;
 
   const coverUrl = currentTrack.thumbnailUrl || `https://i.ytimg.com/vi/${currentTrack.videoId}/hqdefault.jpg`;
@@ -224,17 +236,18 @@ export function Player({ tracks }: PlayerProps) {
         
         {/* QUEUE UI OVERLAY */}
         {isQueueOpen && (
-          <div className="absolute bottom-full mb-4 w-full glass-panel rounded-2xl max-h-[300px] overflow-y-auto z-50 flex flex-col p-4 animate-in fade-in slide-in-from-bottom-4 shadow-2xl">
-            <div className="flex items-center justify-between mb-4 pb-2 border-b border-white/10">
-              <h3 className="text-white font-semibold">Queue</h3>
-              <button onClick={handleQueueToggle} className="text-white/60 hover:text-white transition-colors">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+          <div className="absolute bottom-full mb-4 left-4 right-4 sm:left-0 sm:right-0 glass-panel rounded-2xl max-h-[350px] overflow-y-auto z-50 flex flex-col animate-in fade-in slide-in-from-bottom-4 shadow-2xl custom-scrollbar">
+            <div className="sticky top-0 z-10 flex items-center justify-between p-4 border-b border-white/10 bg-black/60 backdrop-blur-2xl rounded-t-2xl shadow-sm">
+              <h3 className="text-white font-semibold tracking-wide">Queue</h3>
+              <button onClick={handleQueueToggle} className="text-white/60 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-1.5 rounded-full">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1 p-2">
               {tracks.map((track, i) => (
                 <button 
                   key={track.id} 
+                  id={`queue-track-${i}`}
                   onClick={() => {
                     setCurrentIndex(i);
                     if (!isPlaying) handlePlayPause();
