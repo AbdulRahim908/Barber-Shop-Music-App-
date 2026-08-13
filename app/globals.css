@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --color-background: #0a0a0a;
+  --color-foreground: #ededed;
+  
+  --color-accent: #f59e0b; /* Amber 500 for the accent */
+  --color-accent-hover: #fbbf24; /* Amber 400 */
+}
+
+:root {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-sans);
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glassmorphism utility classes matching the recipe */
+@utility glass-panel {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.055));
+  backdrop-filter: blur(64px) saturate(1.7);
+  box-shadow: 0 16px 48px -12px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+@utility glass-button {
+  background-image: linear-gradient(to bottom, var(--color-accent), #d97706);
+  box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.39);
+}
+
+/* Ticking clock colon animation */
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@utility animate-blink {
+  animation: blink 1s step-start infinite;
+}
+
+/* Spinning animation for vinyl */
+@keyframes spin-linear {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@utility animate-spin-linear {
+  animation: spin-linear 8s linear infinite;
+}
