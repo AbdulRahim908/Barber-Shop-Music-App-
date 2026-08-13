@@ -81,7 +81,7 @@ export default function Home() {
           Barber Play list
         </h1>
         <p className="text-sm sm:text-lg text-white/70 font-medium drop-shadow-lg tracking-widest uppercase">
-          {tracks.length}+ tracks - non stop
+          300+ tracks - non stop
         </p>
       </div>
 
